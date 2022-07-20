@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav"
+    app:startDestination="@id/listFragment">
+
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="com.blogspot.roomdb.ui.add.AddFragment"
+        android:label="add User"
+        tools:layout="@layout/fragment_add" >
+        <action
+            android:id="@+id/action_addFragment_to_listFragment2"
+            app:destination="@id/listFragment" />
+        <argument
+            android:name="userDetilas"
+            app:argType="com.blogspot.roomdb.dbUtils.UserEntity"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.blogspot.roomdb.ui.list.ListFragment"
+        android:label="User list"
+        tools:layout="@layout/fragment_list" >
+        <action
+            android:id="@+id/action_listFragment_to_addFragment"
+            app:destination="@id/addFragment" >
+            <argument
+                android:name="userDetilas"
+                app:argType="com.blogspot.roomdb.dbUtils.UserEntity"
+                app:nullable="true"  />
+        </action>
+
+    </fragment>
+</navigation>
