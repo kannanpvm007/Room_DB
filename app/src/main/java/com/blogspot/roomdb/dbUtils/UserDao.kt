@@ -17,4 +17,8 @@ interface UserDao {
 
     @Delete
     fun delete(userEntity: UserEntity)
+
+    @Query("delete from USER_TABLE")
+    fun deleteAll()
+
 }

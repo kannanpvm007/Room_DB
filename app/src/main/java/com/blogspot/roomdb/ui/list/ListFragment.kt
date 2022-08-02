@@ -34,6 +34,10 @@ class ListFragment : Fragment() {
             .setOnClickListener {
                 findNavController().navigate(R.id.action_listFragment_to_addFragment)
             }
+        view.findViewById<FloatingActionButton>(R.id.delete_all)
+            .setOnClickListener {
+               viewModel.deleteAll()
+            }
 
         val adapter = ListAdapter()
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
