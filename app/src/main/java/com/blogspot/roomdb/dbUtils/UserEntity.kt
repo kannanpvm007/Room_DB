@@ -1,9 +1,11 @@
 package com.blogspot.roomdb.dbUtils
 
 import android.os.Parcelable
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
 
 @Parcelize
@@ -14,4 +16,14 @@ data class UserEntity(
     val fristName: String,
     val lastName: String,
     val age:Int,
+    @Embedded
+    val address: Address?= null
+
 ):Parcelable
+
+@Parcelize
+data class Address(
+    var street: String?,
+    var zipCode:String?
+
+) : Parcelable

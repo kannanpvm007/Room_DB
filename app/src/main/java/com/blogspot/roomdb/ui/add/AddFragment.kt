@@ -7,9 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.findFragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
@@ -17,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.blogspot.roomdb.R
+import com.blogspot.roomdb.dbUtils.Address
 import com.blogspot.roomdb.dbUtils.UserEntity
 import com.blogspot.roomdb.ui.UserViewModel
 
@@ -27,6 +26,9 @@ class AddFragment : Fragment() {
     private var type = "add";
     private var userId = 0;
     private lateinit var viewModel: UserViewModel
+    private lateinit var zipCode:EditText
+    private lateinit var street:EditText
+    private lateinit var toggleButton:ToggleButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -53,6 +55,8 @@ class AddFragment : Fragment() {
                 userId= args.userDetilas?.id!!}
 
         } else {
+
+
             type = "add";
 
         }
@@ -67,10 +71,37 @@ class AddFragment : Fragment() {
                 val lastname =
                     view.findViewById<TextView>(R.id.editTextTextPersonName2).text.toString().trim()
                 val age = view.findViewById<TextView>(R.id.editTextNumber).text.toString().trim()
+                var address:Address?=null
+                if(toggleButton.isChecked){
+                    var zipcodeString=""
+                    var streetString=""
+                if (street.text.toString().trim() == "")
+                {
+                    street.setError("Enter Street name")
+                    street.requestFocus()
+                    return@setOnClickListener
+                }else{
+                    streetString=street.text.toString().trim()
+                }
+                if (zipCode.text.toString().trim() == "")
+                {
+                    zipCode.setError("Enter zip Code")
+                    zipCode.requestFocus()
+                    return@setOnClickListener
+                }else{
+                    zipcodeString=zipCode.text.toString().trim()
+
+                }
+                    address= Address(streetString,zipcodeString)
+                }
+                Log.d("TAG", "onCreateView: --------->"+address)
+
                 if (type == "add") {
-                    addUser(fristName, lastname, age)
+
+
+                    addUser(fristName, lastname, age, address)
                 } else {
-                    updateUser(fristName, lastname, age, userId)
+                    updateUser(fristName, lastname, age, userId,address)
                 }
             }
         view.findViewById<Button>(R.id.button_delete)
@@ -83,6 +114,20 @@ class AddFragment : Fragment() {
 
                 delete(fristName, lastname,age,userId)
             }
+
+        toggleButton=  view.findViewById<ToggleButton>(R.id.toggleButton)
+        zipCode = view.findViewById(R.id.zipCode)
+        street = view.findViewById(R.id.street)
+        toggleButton.setOnCheckedChangeListener{ v, ischecke->
+            if (ischecke){
+                zipCode.visibility=View.VISIBLE
+                street.visibility=View.VISIBLE
+            }else{
+                zipCode.visibility=View.GONE
+                street.visibility=View.GONE
+            }
+        }
+
 
         return view
     }
@@ -99,10 +144,10 @@ class AddFragment : Fragment() {
     }
 
 
-    private fun addUser(fristName: String, lastname: String, age: String) {
+    private fun addUser(fristName: String, lastname: String, age: String,address: Address?) {
         if (inputCheck(fristName, lastname, age)) {
             Log.d("System", "addUser: ")
-            val user = UserEntity(0, fristName, lastname, Integer.valueOf(age))
+            val user = UserEntity(0, fristName, lastname, Integer.valueOf(age),address)
             viewModel.addUser(user)
             Toast.makeText(requireContext(), "user added", Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_addFragment_to_listFragment2)
@@ -111,10 +156,10 @@ class AddFragment : Fragment() {
         }
     }
 
-    private fun updateUser(fristName: String, lastname: String, age: String, id: Int) {
+    private fun updateUser(fristName: String, lastname: String, age: String, id: Int,address: Address?) {
         Log.d("Update", "updateUser: ")
         if (inputCheck(fristName, lastname, age)) {
-            val user = UserEntity(id, fristName, lastname, Integer.valueOf(userId))
+            val user = UserEntity(id, fristName, lastname, Integer.valueOf(userId),address)
             viewModel.updateUser(user)
             Toast.makeText(requireContext(), "user added", Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_addFragment_to_listFragment2)

@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.findNavController
@@ -21,6 +22,9 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
         var lastName: TextView = itemView.findViewById(R.id.lastName)
         var age: TextView = itemView.findViewById(R.id.age)
         var totalLayout: ConstraintLayout = itemView.findViewById(R.id.total_view)
+        var addressLayout: LinearLayout = itemView.findViewById(R.id.addressLayout)
+        var street: TextView = itemView.findViewById(R.id.street)
+        var zipcode: TextView = itemView.findViewById(R.id.zipCode)
 
     }
 
@@ -41,6 +45,13 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
         holder.fistName.text = currentUser.fristName
         holder.lastName.text = currentUser.lastName
         holder.age.text = currentUser.age.toString()
+        if (currentUser.address !=null){
+            holder.addressLayout.visibility=View.VISIBLE
+            holder.street.text=currentUser.address.street
+            holder.zipcode.text=currentUser.address.zipCode
+        }else{
+            holder.addressLayout.visibility=View.GONE
+        }
         holder.totalLayout.setOnClickListener {
             val action = ListFragmentDirections.actionListFragmentToAddFragment(currentUser)
             holder.itemView.findNavController().navigate(action)
