@@ -1,5 +1,6 @@
 package com.blogspot.roomdb.dbUtils
 
+import android.graphics.Bitmap
 import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.Entity
@@ -17,7 +18,9 @@ data class UserEntity(
     val lastName: String,
     val age:Int,
     @Embedded
-    val address: Address?= null
+    val address: Address?= null,
+    val profleImage: Bitmap?= null
+
 
 ):Parcelable
 

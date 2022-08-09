@@ -1,23 +1,29 @@
 package com.blogspot.roomdb.ui.add
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
+import android.os.StrictMode
+import android.os.StrictMode.ThreadPolicy
 import android.text.TextUtils
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.fragment.app.findFragment
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.blogspot.roomdb.R
 import com.blogspot.roomdb.dbUtils.Address
 import com.blogspot.roomdb.dbUtils.UserEntity
 import com.blogspot.roomdb.ui.UserViewModel
+import kotlinx.coroutines.launch
+import java.io.IOException
+import java.net.URL
 
 
 class AddFragment : Fragment() {
@@ -41,7 +47,10 @@ class AddFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_add, container, false)
         viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-
+        if (Build.VERSION.SDK_INT > 9) {
+            val policy = ThreadPolicy.Builder().permitAll().build()
+            StrictMode.setThreadPolicy(policy)
+        }
         if (args != null && args.userDetilas?.id != null) {
             type = "update"
 
@@ -103,6 +112,7 @@ class AddFragment : Fragment() {
                 } else {
                     updateUser(fristName, lastname, age, userId,address)
                 }
+
             }
         view.findViewById<Button>(R.id.button_delete)
             .setOnClickListener {
@@ -147,8 +157,12 @@ class AddFragment : Fragment() {
     private fun addUser(fristName: String, lastname: String, age: String,address: Address?) {
         if (inputCheck(fristName, lastname, age)) {
             Log.d("System", "addUser: ")
-            val user = UserEntity(0, fristName, lastname, Integer.valueOf(age),address)
+            val user = UserEntity(0, fristName, lastname, Integer.valueOf(age),address,getBitMapFromUrl())
+            lifecycleScope.launch{
+
             viewModel.addUser(user)
+
+            }
             Toast.makeText(requireContext(), "user added", Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_addFragment_to_listFragment2)
         } else {
@@ -179,4 +193,17 @@ class AddFragment : Fragment() {
         }
     }
 
+
+    fun getBitMapFromUrl(): Bitmap? {
+        var image:Bitmap?=null
+        try {
+            val url = URL("https://yt3.ggpht.com/ytc/AKedOLQXP5X35TVGHxfzAlMNkL7IMRQZSckKuH676ViRGw=s900-c-k-c0x00ffffff-no-rj")
+//            val url = URL("https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png")
+              image = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+            return image
+        } catch (e: IOException) {
+           e.printStackTrace()
+        }
+        return image
+    }
 }

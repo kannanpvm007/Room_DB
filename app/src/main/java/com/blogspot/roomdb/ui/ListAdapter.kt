@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -25,6 +26,7 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
         var addressLayout: LinearLayout = itemView.findViewById(R.id.addressLayout)
         var street: TextView = itemView.findViewById(R.id.street)
         var zipcode: TextView = itemView.findViewById(R.id.zipCode)
+        var imageView: ImageView = itemView.findViewById(R.id.im_view)
 
     }
 
@@ -51,6 +53,13 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
             holder.zipcode.text=currentUser.address.zipCode
         }else{
             holder.addressLayout.visibility=View.GONE
+        }
+        if (currentUser.profleImage !=null){
+            holder.imageView.visibility=View.VISIBLE
+            holder.imageView.setImageBitmap(currentUser.profleImage)
+
+        }else{
+            holder.imageView.visibility=View.GONE
         }
         holder.totalLayout.setOnClickListener {
             val action = ListFragmentDirections.actionListFragmentToAddFragment(currentUser)
