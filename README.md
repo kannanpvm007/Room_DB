@@ -1,4 +1,4 @@
- # sample  Room DB
+ # sample  Room DB android [kotlin]
  **@Embedded -room database**\
  **@TypeConverter - store Image**
  
