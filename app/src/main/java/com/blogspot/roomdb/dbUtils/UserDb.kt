@@ -24,6 +24,7 @@ abstract class UserDb : RoomDatabase() {
                     context.applicationContext,
                     UserDb::class.java, "user_db")
                     .fallbackToDestructiveMigration()
+                    .createFromAsset("database/user_db.db")
                     .build()
                 return instance
             }
