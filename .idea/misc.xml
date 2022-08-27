@@ -6,9 +6,11 @@
         <entry key="..\:/Users/Kannan/AndroidStudioProjects/RoomDB/app/src/main/res/drawable/toogle_switch.xml" value="0.2395" />
         <entry key="..\:/Users/Kannan/AndroidStudioProjects/RoomDB/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/Kannan/AndroidStudioProjects/RoomDB/app/src/main/res/layout/fragment_add.xml" value="0.264" />
-        <entry key="..\:/Users/Kannan/AndroidStudioProjects/RoomDB/app/src/main/res/layout/fragment_list.xml" value="0.4" />
+        <entry key="..\:/Users/Kannan/AndroidStudioProjects/RoomDB/app/src/main/res/layout/fragment_list.xml" value="0.2591145833333333" />
         <entry key="..\:/Users/Kannan/AndroidStudioProjects/RoomDB/app/src/main/res/layout/list_row.xml" value="0.536" />
+        <entry key="..\:/Users/Kannan/AndroidStudioProjects/RoomDB/app/src/main/res/menu-v26/search_menu.xml" value="0.1640625" />
         <entry key="..\:/Users/Kannan/AndroidStudioProjects/RoomDB/app/src/main/res/menu/list_menu.xml" value="0.1" />
+        <entry key="..\:/Users/Kannan/AndroidStudioProjects/RoomDB/app/src/main/res/menu/search_menu.xml" value="0.1" />
       </map>
     </option>
   </component>

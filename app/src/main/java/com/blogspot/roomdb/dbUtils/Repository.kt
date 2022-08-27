@@ -2,6 +2,9 @@ package com.blogspot.roomdb.dbUtils
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+
+import kotlinx.coroutines.flow.Flow
 
 
 class Repository(private val user: UserDao) {
@@ -25,6 +28,12 @@ class Repository(private val user: UserDao) {
     }
     suspend fun deleteUserAll(){
         user.deleteAll()
+    }
+      fun searchByString(string: String) : Flow<List<UserEntity>>{
+        Log.d("TAG", "searchByString:  repos --------> "+string)
+       val user = user.searchByString(string)
+        Log.d("TAG", "searchByString:  repos user--------> "+string)
+        return user
     }
 
 }
